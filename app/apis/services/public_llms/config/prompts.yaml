@@ -1,0 +1,8 @@
+prompt_templates:
+  default:
+    human_message_prompt_template:
+      variable_name: "content"
+      content: '{content}'
+    system_message_prompt_template:
+      variable_name: null
+      content: null

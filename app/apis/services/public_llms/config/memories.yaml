@@ -1,0 +1,5 @@
+type_memories:
+  ConversationBufferMemory:
+    parameters:
+      memory_key: messages
+      return_messages: True

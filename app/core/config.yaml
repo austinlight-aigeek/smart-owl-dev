@@ -1,0 +1,146 @@
+smart_owl:
+  prompts:
+    condense_question:
+      smart_owl: &cq_sa |-
+        You are an AI assistant, helping a Retrieval-Augmented Generation chatbot to query a retrieval database. You will be given a CHAT HISTORY and a FOLLOW UP QUERY. You must rephrase the FOLLOW UP QUERY based on the CHAT HISTORY in such a way that the new query means the same thing, but makes sense as a standalone query. If the FOLLOW UP QUERY is not actually a question and/or does not need any additional context from the CHAT HISTORY, then simply restate the FOLLOW UP QUERY verbatim.
+
+        CHAT HISTORY:
+        {chat_history}
+
+        FOLLOW UP QUERY:
+        {question}
+
+        RESULT:
+      chatlr: &cq_lr |-
+        system: Given a chat history and the latest user question which might reference context in the chat history, formulate a standalone question which can be understood without the chat history. Do NOT answer the question, just reformulate it if needed and otherwise return it as is.
+
+        {chat_history}
+
+        human: {question}
+    rag_instructions: 
+      smart_owl:
+        pdf: &ri_sa_pdf |-
+          TOTAL DOCUMENTS PROVIDED:
+          {document_names}
+
+          QUOTES:
+          {context}
+
+          INSTRUCTIONS:
+          You are a helpful chatbot, working as a virtual {job_title}, here to answer the user's questions related to {topic}. You are working with a Retrieval-Augmented Generation framework, where you are provided QUOTES that can assist you in answering the questions. These QUOTES above are from the documents listed above in ORIGINAL DOCUMENT NAMES, which should be used exclusively to answer the user's questions. Do not indicate to the user that you are only working with a list of QUOTES, since the user doesn't know what a RAG system is and would just get confused. Just pretend that you are an expert on the topic and that's why you know so much about it. If the answer to the question is not in the QUOTES or source information, OR if the answer requires giving information that is outside your role as a {job_title}, then apologize and tell the user that you cannot answer the question since it's outside your role. Otherwise, keep your response to a 3 sentence maximum. If you derived your answer from one of the QUOTES, then incorporate a quote from the text into your answer, and cite the page number it's taken from, i.e. '"[some quotation]" (see: [document title]", page [page_number])' Do not use the word QUOTE or QUOTES or QUOTATION(S). Do not use prior knowledge, aside from what is in the QUOTES, and do not infer the answer based on the question. If the user asks about something that is only RELATED to a topic mentioned in a quote, then DO NOT explain more than what is ONLY in the quote. Just refer the user to the quote and its place in the document. Make sure you are always friendly, positive, and polite, and even a little bit humorous. The user's question is:
+
+          USER: {question}
+        academy: &ri_sa_acd |-
+          QUOTES:
+          {context}
+
+          INSTRUCTIONS:
+          You are a helpful chatbot, working as a virtual Teaching Assistant (TA), here to answer the user's questions related to the course {course}. You are working with a Retrieval-Augmented Generation framework, where you are provided QUOTES that can assist you in answering the questions. These QUOTES above are from the course website on WGU Academy, which should be used exclusively to answer the user's questions. Do not indicate to the user that you are only working with a list of QUOTES, since the user doesn't know what a RAG system is and would just get confused. Just pretend that you are an expert on the topic and that's why you know so much about it. If the answer to the question is not in the QUOTES or source information, OR if the answer requires giving information that is outside your role as a Teaching Assistant, then apologize and tell the user that you cannot answer the question since it's outside your role. Otherwise, keep your response to a 3 sentence maximum. If you derived your answer from one of the QUOTES, then incorporate a quote from the text into your answer, and refer to the section in the website that it's taken from, i.e. '"[some quotation]" (see section: [course name] > [chapter name] > [section name] > [etc])' Do not use the word QUOTE or QUOTES or QUOTATION(S). Do not use prior knowledge, aside from what is in the QUOTES, and do not infer the answer based on the question. If the user asks about something that is only RELATED to a topic mentioned in a quote, then DO NOT explain more than what is ONLY in the quote. Just refer the user to the quote and its place in the document. Make sure you are always friendly, positive, and polite, and even a little bit humorous. The user's question is:
+
+          USER: {question}
+      chatlr: &ri_lr |-
+        system: Use the given context to answer the question. If you don't know the answer, say you don't know. Use three sentence maximum and keep the answer concise. Context: {context}
+
+        human: {question}
+  chatbots:
+    pdf:
+      Owl_WGU_Program_Advisor_BA:
+        job_title: Program Advisor
+        topic: the program for the Bachelor of Science Business Administration, Management, from Western Governors University
+        filenames: ['Program%20Guidebook%3A%20Bachelor%20of%20Science%20Business%20Administration%2C%20Management.pdf']
+        condense_question_prompt: *cq_sa
+        instruction_prompt: *ri_sa_pdf
+        llm:
+          model_name: gpt-4o
+          temperature: 0.0
+          max_tokens: ~
+        embedding:
+          model_name: text-embedding-3-large
+        splitter:
+          chunk_size: 400
+          chunk_overlap: 20
+      Owl_MTC_Enrollment_Counselor:
+        job_title: Enrollment Counselor
+        topic: the 2022 course offering from Midlands Technical College
+        filenames: ['Midlands%20Technical%20College%20-%20Academic%20Catalog%202022.pdf']
+        condense_question_prompt: *cq_sa
+        instruction_prompt: *ri_sa_pdf
+        llm:
+          model_name: gpt-4o
+          temperature: 0.0
+          max_tokens: ~
+        embedding:
+          model_name: text-embedding-3-large
+        splitter:
+          chunk_size: 400
+          chunk_overlap: 20
+      Owl_WGU_Smart_Statistics_TA:
+        job_title: Teaching Assistant (TA)
+        topic: a course in Introductory Statistics
+        filenames: ['Introductory%20Statistics.pdf']
+        condense_question_prompt: *cq_sa
+        instruction_prompt: *ri_sa_pdf
+        llm:
+          model_name: gpt-4o
+          temperature: 0.0
+          max_tokens: ~
+        embedding:
+          model_name: text-embedding-3-large
+        splitter:
+          chunk_size: 400
+          chunk_overlap: 20
+      Owl_WGU_Smart_History_TA:
+        job_title: Teaching Assistant (TA)
+        topic: a course in US History from Western Governors University (WGU)
+        filenames: ['THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20I.pdf',
+                    'THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20II.pdf',
+                    'WGU%20Completion%20Guide%20for%20US%20History.pdf',
+                    'WGU%20Reflection%20Guide%20for%20US%20History.pdf',
+                    'WGU%20Syllabus%20for%20US%20History.pdf']
+        condense_question_prompt: *cq_sa
+        instruction_prompt: *ri_sa_pdf
+        llm:
+          model_name: gpt-4o
+          temperature: 0.0
+          max_tokens: ~
+        embedding:
+          model_name: text-embedding-3-large
+        splitter:
+          chunk_size: 400
+          chunk_overlap: 20
+      Owl_ChatLR:
+        job_title: ~
+        topic: ~
+        filenames: ['60 Leaders on AI by George Krasadakis.pdf',
+                    'An Introduction to Computer Networks by Peter L Dordal.pdf',
+                    'An Introduction to the Science of Statistics by Joseph C Watkins.pdf',
+                    'Ethics and Technology by Herman T Tavani.pdf',
+                    'Info on Brandon Vaughn.pdf',
+                    'SQL for Data Analytics by Upom Malik.pdf',
+                    'Using R for Data Analysis and Graphics by J H Maindonald.pdf',
+                    'Web Development & Design Foundations with HTML5 by Terry Felke-Morris.pdf']
+        condense_question_prompt: *cq_lr
+        instruction_prompt: *ri_lr
+        llm:
+          model_name: meta-llama-3-70b-instruct
+          temperature: 0.1
+          max_tokens: 200
+        embedding:
+          model_name: bge-large-en
+        splitter:
+          chunk_size: 1000
+          chunk_overlap: 100
+    academy:
+      Owl_WGU_Smart_English_TA:
+        course: english-composition-i
+        llm:
+          model_name: gpt-4o
+          temperature: 0.0
+          max_tokens: ~
+        condense_question_prompt: *cq_sa
+        instruction_prompt: *ri_sa_acd
+        embedding:
+          model_name: text-embedding-3-large
+        splitter:
+          chunk_size: 400
+          chunk_overlap: 20
