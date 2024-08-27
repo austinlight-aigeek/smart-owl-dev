@@ -18,9 +18,7 @@ router = APIRouter()
 
 @router.post("/new_user", response_model=ShowUser, status_code=status.HTTP_201_CREATED)
 def create_user(
-    user: UserCreate, 
-    db: Session = Depends(get_db), 
-    current_user: User = Depends(get_current_user)
+    user: UserCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     if not is_super_user(current_user):
         raise HTTPException(detail="Not a super user!", status_code=status.HTTP_401_UNAUTHORIZED)
