@@ -61,7 +61,7 @@ class Settings:
     DATABRICKS_PATH: str = f"{CATALOG}.{SCHEMA}"
     VECTOR_SEARCH_ENDPOINT: str = f"chatbot_vector_search_{ENVIRONMENT}"
 
-    OPENAI_API_KEY: str = os.getenv("OPEN_AI_KEY")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
 
     REDIS_HOST: str = os.getenv("REDIS_HOST")
     REDIS_PORT: int = int(os.getenv("REDIS_PORT"))
