@@ -77,7 +77,9 @@ class ChatBotGateKeeper:
                     model_config = {
                         "provider": provider,
                         "model": model,
-                        "parameters": config_models["providers"][provider]["parameters"],
+                        "parameters": config_models["providers"][provider][
+                            "parameters"
+                        ],
                     }
         if "model_config" not in locals():
             warnings.warn(
@@ -95,7 +97,9 @@ class ChatBotGateKeeper:
         if memory_type in available_memories:
             memory_config = {
                 "memory_type": memory_type,
-                "parameters": config_memories["type_memories"][memory_type]["parameters"],
+                "parameters": config_memories["type_memories"][memory_type][
+                    "parameters"
+                ],
             }
         else:
             warnings.warn(
@@ -113,10 +117,12 @@ class ChatBotGateKeeper:
         prompt_template_config = config_prompts["prompt_templates"].get(
             prompt_template_type, default_prompt_template_type
         )
-        human_message = prompt_template_config["human_message_prompt_template"]["content"]
-        human_message_variable = prompt_template_config["human_message_prompt_template"][
-            "variable_name"
+        human_message = prompt_template_config["human_message_prompt_template"][
+            "content"
         ]
+        human_message_variable = prompt_template_config[
+            "human_message_prompt_template"
+        ]["variable_name"]
         prompt = ChatPromptTemplate(
             input_variables=[human_message_variable, memory.memory_key],
             messages=[

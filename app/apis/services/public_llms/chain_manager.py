@@ -32,7 +32,8 @@ class ChainManager:
         try:
             with get_llm_callback(llm=self._base_model) as cb:
                 response = await self.chain.ainvoke(
-                    {self._base_prompt.input_variables[0]: message}, include_run_info=True
+                    {self._base_prompt.input_variables[0]: message},
+                    include_run_info=True,
                 )
                 response["usage"] = {
                     "total_tokens": cb.total_tokens,

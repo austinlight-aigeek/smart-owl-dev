@@ -21,7 +21,7 @@ def create_new_user(user: UserCreate, db: Session):
         openai_key_name=user.openai_key_name,
         quota=user.quota,
         usage=0,
-        available_models=user.available_models,
+        # available_models=user.available_models,
     )
     db.add(user)
     db.commit()
@@ -79,16 +79,26 @@ def update_user_based_on_email(email: str, user_update: UserUpdate, db: Session)
                 if user_update.password
                 else user.password
             )
-            user.is_active = user_update.is_active if user_update.is_active else user.is_active
-            user.project_name = (
-                user_update.project_name if user_update.project_name else user.project_name
+            user.is_active = (
+                user_update.is_active if user_update.is_active else user.is_active
             )
-            user.team_name = user_update.team_name if user_update.team_name else user.team_name
+            user.project_name = (
+                user_update.project_name
+                if user_update.project_name
+                else user.project_name
+            )
+            user.team_name = (
+                user_update.team_name if user_update.team_name else user.team_name
+            )
             user.contact_email = (
-                user_update.contact_email if user_update.contact_email else user.contact_email
+                user_update.contact_email
+                if user_update.contact_email
+                else user.contact_email
             )
             user.account_type = (
-                user_update.account_type if user_update.account_type else user.account_type
+                user_update.account_type
+                if user_update.account_type
+                else user.account_type
             )
             user.openai_key_type = (
                 user_update.openai_key_type
@@ -102,7 +112,9 @@ def update_user_based_on_email(email: str, user_update: UserUpdate, db: Session)
             )
             user.quota = user_update.quota if user_update.quota else user.quota
             user.is_superuser = (
-                user_update.is_superuser if user_update.is_superuser else user.is_superuser
+                user_update.is_superuser
+                if user_update.is_superuser
+                else user.is_superuser
             )
             user.available_models = (
                 user_update.available_models

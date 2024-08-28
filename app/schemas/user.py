@@ -19,17 +19,17 @@ class UserCreate(BaseModel):
     openai_key_name: str = Field(...)
     quota: int = Field(...)
     is_super_user: bool = Field(...)
-    available_models: list[str] = Field(...)
+    # available_models: list[str] = Field(...)
 
-    @validator("available_models")
-    def validate_available_models(cls, models):
-        for model in models:
-            if model not in AvailableModels.__members__.values():
-                raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    detail=f"{model} is not a valid model",
-                )
-        return models
+    # @validator("available_models")
+    # def validate_available_models(cls, models):
+    #     for model in models:
+    #         if model not in AvailableModels.__members__.values():
+    #             raise HTTPException(
+    #                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    #                 detail=f"{model} is not a valid model",
+    #             )
+    #     return models
 
 
 class UserUpdate(BaseModel):
@@ -43,17 +43,17 @@ class UserUpdate(BaseModel):
     openai_key_name: Optional[str] = Field(None)
     quota: Optional[int] = Field(None)
     is_superuser: Optional[bool] = Field(None)
-    available_models: Optional[list[str]] = Field(None)
+    # available_models: Optional[list[str]] = Field(None)
 
-    @validator("available_models")
-    def validate_available_models(cls, models):
-        for model in models:
-            if model not in AvailableModels.__members__.values():
-                raise HTTPException(
-                    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    detail=f"{model} is not a valid model",
-                )
-        return models
+    # @validator("available_models")
+    # def validate_available_models(cls, models):
+    #     for model in models:
+    #         if model not in AvailableModels.__members__.values():
+    #             raise HTTPException(
+    #                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    #                 detail=f"{model} is not a valid model",
+    #             )
+    #     return models
 
     class Config:
         schema_extra = {
@@ -68,7 +68,7 @@ class UserUpdate(BaseModel):
                 "openai_key_name": "string",
                 "quota": 0,
                 "is_superuser": True,
-                "available_models": [model.value for model in AvailableModels],
+                # "available_models": [model.value for model in AvailableModels],
             }
         }
 
@@ -89,7 +89,7 @@ class ShowUser(BaseModel):
     is_superuser: bool
     created_at: datetime
     updated_at: datetime
-    available_models: list[str] = [model.value for model in AvailableModels]
+    # available_models: list[str] = [model.value for model in AvailableModels]
 
     class Config:  # tells pydantic to convert even non dict obj to json
         orm_mode = True

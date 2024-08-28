@@ -95,7 +95,9 @@ async def owl_handler(request_data, cache_db, current_user):
         "Owl_WGU_Smart_History_TA",
         "Owl_ChatLR",
     }:
-        smart_owl = OwlChatbotPDF(request_data.model, chat_message_history=chat_message_history)
+        smart_owl = OwlChatbotPDF(
+            request_data.model, chat_message_history=chat_message_history
+        )
     elif request_data.model == "Owl_WGU_Smart_English_TA":
         smart_owl = OwlChatbotAcademy(
             request_data.model, chat_message_history=chat_message_history

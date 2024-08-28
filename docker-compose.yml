@@ -1,0 +1,22 @@
+version: "3.4"
+
+services:
+  api:
+    build: .
+    container_name: wgu-fast-api
+    environment:
+      - PORT=80
+      - AWS_REGION=us-west-2
+      - POSTGRES_DB=chatgptdevDB
+      - DYNAMO_DB_TABLE=OpenAIInteractions
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+    networks:
+      - app-tier
+    restart: "always"
+
+networks:
+  app-tier:
+    driver: bridge

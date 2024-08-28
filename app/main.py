@@ -14,6 +14,9 @@ from app.ui.apis.base import api_router_ui
 
 
 def create_tables():
+    print("--------------- Engine ------------")
+    print(engine)
+    print("---------------- Engine End ---------------")
     Base.metadata.create_all(bind=engine)
 
 

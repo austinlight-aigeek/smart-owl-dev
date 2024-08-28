@@ -60,9 +60,9 @@ services:
 
 volumes:
   run_locally_pgdata:
-    external: true
+    external: false
   run_locally_redis_data:
-    external: true
+    external: false
 
 networks:
   default:
