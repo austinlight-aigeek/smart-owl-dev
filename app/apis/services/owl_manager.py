@@ -36,7 +36,9 @@ class CustomVectorSearch(DatabricksVectorSearch):
         columns: Optional[list[str]] = None,
     ):
         self.data_format = data_format
-        super().__init__(index, embedding=embedding, text_column=text_column, columns=columns)
+        super().__init__(
+            index, embedding=embedding, text_column=text_column, columns=columns
+        )
 
     def _add_metadata_to_text(self, text_content, metadata):
         if self.data_format == "pdf":
@@ -45,7 +47,9 @@ class CustomVectorSearch(DatabricksVectorSearch):
         elif self.data_format == "academy":
             source_string = metadata["breadcrumbs"]
         else:
-            raise InvalidDataFormatException("Invalid data format for Document formatting")
+            raise InvalidDataFormatException(
+                "Invalid data format for Document formatting"
+            )
 
         return f"<QUOTE>\n<TEXT>\n. . . {text_content} . . .\n</TEXT>\n<SOURCE>\n{source_string}\n</SOURCE>\n</QUOTE>"  # noqa: E501. f-string metadata for prompt
 
@@ -56,7 +60,10 @@ class CustomVectorSearch(DatabricksVectorSearch):
         if ignore_cols is None:
             ignore_cols = []
 
-        columns = [col["name"] for col in search_resp.get("manifest", dict()).get("columns", [])]
+        columns = [
+            col["name"]
+            for col in search_resp.get("manifest", dict()).get("columns", [])
+        ]
         docs_with_score = []
         for result in search_resp.get("result", dict()).get("data_array", []):
             doc_id = result[columns.index(self.primary_key)]
@@ -69,7 +76,8 @@ class CustomVectorSearch(DatabricksVectorSearch):
             metadata[self.primary_key] = doc_id
             score = result[-1]
             doc = Document(
-                page_content=self._add_metadata_to_text(text_content, metadata), metadata=metadata
+                page_content=self._add_metadata_to_text(text_content, metadata),
+                metadata=metadata,
             )
             docs_with_score.append((doc, score))
         return docs_with_score
@@ -104,7 +112,9 @@ class OwlChatbot:
             self.__chat_memory = ChatMessageHistory(messages=retrieved_messages)
 
         # models
-        self.embedding_model = load_embedding_model(self.config["embedding"]["model_name"])
+        self.embedding_model = load_embedding_model(
+            self.config["embedding"]["model_name"]
+        )
         self.llm = load_chat_model(
             self.config["llm"]["model_name"],
             temperature=self.config["llm"]["temperature"],
@@ -115,7 +125,9 @@ class OwlChatbot:
         self.condense_question_prompt = PromptTemplate.from_template(
             self.config["condense_question_prompt"]
         )
-        self.instruction_prompt = PromptTemplate.from_template(self.config["instruction_prompt"])
+        self.instruction_prompt = PromptTemplate.from_template(
+            self.config["instruction_prompt"]
+        )
 
         self.retriever = self._load_retriever()
         self.rag_chain = self._load_rag_chain()
@@ -132,7 +144,8 @@ class OwlChatbot:
             service_principal_client_secret=secret,
         )
         vs_index = vsc.get_index(
-            endpoint_name=self.vector_search_endpoint_name, index_name=self.vector_index_name
+            endpoint_name=self.vector_search_endpoint_name,
+            index_name=self.vector_index_name,
         )
         vectorstore = CustomVectorSearch(
             vs_index,
@@ -192,7 +205,9 @@ class OwlChatbotPDF(OwlChatbot):
         self.topic = self.config["topic"]
         self.filenames = self.config["filenames"]
         self.titles = [unquote(fname[:-4]) for fname in self.filenames]
-        self.docs_info_prompt = "".join([f"\tTitle: {title}\n" for title in self.titles])[:-1]
+        self.docs_info_prompt = "".join(
+            [f"\tTitle: {title}\n" for title in self.titles]
+        )[:-1]
 
         super().__init__(
             chatbot_name,
@@ -234,7 +249,9 @@ class OwlChatbotAcademy(OwlChatbot):
         )
 
     async def execute(self, query, output_dict=False):
-        result = await self.rag_chain.ainvoke({"question": query, "course": self.course_parsed})
+        result = await self.rag_chain.ainvoke(
+            {"question": query, "course": self.course_parsed}
+        )
         if output_dict:
             return result
         return result["answer"]

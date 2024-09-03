@@ -110,7 +110,11 @@ class ChatLLM(LLM):
     ) -> LLMResult:
         generations = []
         llm_output = {}
-        llm_output["token_usage"] = {"completion_tokens": 0, "prompt_tokens": 0, "total_tokens": 0}
+        llm_output["token_usage"] = {
+            "completion_tokens": 0,
+            "prompt_tokens": 0,
+            "total_tokens": 0,
+        }
         new_arg_supported = inspect.signature(self._call).parameters.get("run_manager")
         new_arg_supported is None, "We are not supporting run_manager"
         for prompt in prompts:
@@ -204,13 +208,17 @@ def load_chat_model(model_name, temperature=0.0, max_tokens=None):
             max_tokens=max_tokens,
         )
     else:
-        return ChatLLM(model_name=model_name, temperature=temperature, max_tokens=max_tokens)
+        return ChatLLM(
+            model_name=model_name, temperature=temperature, max_tokens=max_tokens
+        )
 
 
 def load_embedding_model(model_name):
     if model_name.startswith("text-embedding-"):
         return OpenAIEmbeddings(
-            openai_api_key=settings.OPENAI_API_KEY, model=model_name, deployment=model_name
+            openai_api_key=settings.OPENAI_API_KEY,
+            model=model_name,
+            deployment=model_name,
         )
     else:
         return EmbeddingLLM(model_name=model_name)

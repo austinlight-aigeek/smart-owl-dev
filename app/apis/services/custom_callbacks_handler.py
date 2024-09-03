@@ -37,7 +37,9 @@ class DatabricksCallbackHandler(BaseCallbackHandler):
         """Whether to call verbose callbacks even if verbose is False."""
         return True
 
-    def on_llm_start(self, serialized: dict[str, Any], prompts: list[str], **kwargs: Any) -> None:
+    def on_llm_start(
+        self, serialized: dict[str, Any], prompts: list[str], **kwargs: Any
+    ) -> None:
         """Print out the prompts."""
         pass
 

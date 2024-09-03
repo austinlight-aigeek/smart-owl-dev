@@ -17,7 +17,7 @@ smart_owl:
         {chat_history}
 
         human: {question}
-    rag_instructions: 
+    rag_instructions:
       smart_owl:
         pdf: &ri_sa_pdf |-
           TOTAL DOCUMENTS PROVIDED:
@@ -47,7 +47,10 @@ smart_owl:
       Owl_WGU_Program_Advisor_BA:
         job_title: Program Advisor
         topic: the program for the Bachelor of Science Business Administration, Management, from Western Governors University
-        filenames: ['Program%20Guidebook%3A%20Bachelor%20of%20Science%20Business%20Administration%2C%20Management.pdf']
+        filenames:
+          [
+            "Program%20Guidebook%3A%20Bachelor%20of%20Science%20Business%20Administration%2C%20Management.pdf",
+          ]
         condense_question_prompt: *cq_sa
         instruction_prompt: *ri_sa_pdf
         llm:
@@ -62,7 +65,8 @@ smart_owl:
       Owl_MTC_Enrollment_Counselor:
         job_title: Enrollment Counselor
         topic: the 2022 course offering from Midlands Technical College
-        filenames: ['Midlands%20Technical%20College%20-%20Academic%20Catalog%202022.pdf']
+        filenames:
+          ["Midlands%20Technical%20College%20-%20Academic%20Catalog%202022.pdf"]
         condense_question_prompt: *cq_sa
         instruction_prompt: *ri_sa_pdf
         llm:
@@ -77,7 +81,7 @@ smart_owl:
       Owl_WGU_Smart_Statistics_TA:
         job_title: Teaching Assistant (TA)
         topic: a course in Introductory Statistics
-        filenames: ['Introductory%20Statistics.pdf']
+        filenames: ["Introductory%20Statistics.pdf"]
         condense_question_prompt: *cq_sa
         instruction_prompt: *ri_sa_pdf
         llm:
@@ -92,11 +96,14 @@ smart_owl:
       Owl_WGU_Smart_History_TA:
         job_title: Teaching Assistant (TA)
         topic: a course in US History from Western Governors University (WGU)
-        filenames: ['THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20I.pdf',
-                    'THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20II.pdf',
-                    'WGU%20Completion%20Guide%20for%20US%20History.pdf',
-                    'WGU%20Reflection%20Guide%20for%20US%20History.pdf',
-                    'WGU%20Syllabus%20for%20US%20History.pdf']
+        filenames:
+          [
+            "THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20I.pdf",
+            "THE%20AMERICAN%20YAWP%20READER%20-%20Volume%20II.pdf",
+            "WGU%20Completion%20Guide%20for%20US%20History.pdf",
+            "WGU%20Reflection%20Guide%20for%20US%20History.pdf",
+            "WGU%20Syllabus%20for%20US%20History.pdf",
+          ]
         condense_question_prompt: *cq_sa
         instruction_prompt: *ri_sa_pdf
         llm:
@@ -111,14 +118,17 @@ smart_owl:
       Owl_ChatLR:
         job_title: ~
         topic: ~
-        filenames: ['60 Leaders on AI by George Krasadakis.pdf',
-                    'An Introduction to Computer Networks by Peter L Dordal.pdf',
-                    'An Introduction to the Science of Statistics by Joseph C Watkins.pdf',
-                    'Ethics and Technology by Herman T Tavani.pdf',
-                    'Info on Brandon Vaughn.pdf',
-                    'SQL for Data Analytics by Upom Malik.pdf',
-                    'Using R for Data Analysis and Graphics by J H Maindonald.pdf',
-                    'Web Development & Design Foundations with HTML5 by Terry Felke-Morris.pdf']
+        filenames:
+          [
+            "60 Leaders on AI by George Krasadakis.pdf",
+            "An Introduction to Computer Networks by Peter L Dordal.pdf",
+            "An Introduction to the Science of Statistics by Joseph C Watkins.pdf",
+            "Ethics and Technology by Herman T Tavani.pdf",
+            "Info on Brandon Vaughn.pdf",
+            "SQL for Data Analytics by Upom Malik.pdf",
+            "Using R for Data Analysis and Graphics by J H Maindonald.pdf",
+            "Web Development & Design Foundations with HTML5 by Terry Felke-Morris.pdf",
+          ]
         condense_question_prompt: *cq_lr
         instruction_prompt: *ri_lr
         llm:
