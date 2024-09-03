@@ -20,7 +20,7 @@ class User(Base):
     usage = Column(Integer, default=0)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    # available_models = Column(ARRAY(String), nullable=False)
+    available_models = Column(ARRAY(String), nullable=False)
 
     def __init__(self, **data):
         super().__init__(updated_at=func.now(), **data)

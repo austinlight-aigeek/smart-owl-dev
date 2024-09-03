@@ -21,7 +21,7 @@ def create_new_user(user: UserCreate, db: Session):
         openai_key_name=user.openai_key_name,
         quota=user.quota,
         usage=0,
-        # available_models=user.available_models,
+        available_models=user.available_models,
     )
     db.add(user)
     db.commit()
